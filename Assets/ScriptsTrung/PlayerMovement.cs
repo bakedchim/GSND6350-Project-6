@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -35,8 +36,12 @@ public class PlayerMovement : MonoBehaviour
     public bool canMove = true;
 
     public bool isNearBoat = false;
-    
+    public bool isOnBoat = false;
+    public Transform boatAnchor;
+    public GameObject boatObj;
     public GameControllerTrung gameControllerTrung;
+    public CinemachineFreeLook playerCamFreeLook;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -50,6 +55,12 @@ public class PlayerMovement : MonoBehaviour
         if (gameControllerTrung.gameStarted == false)
         {
             return;
+        }
+        if (isOnBoat)
+        {
+            transform.position = boatAnchor.position;
+            // Rotate the boat with the camera
+            boatObj.transform.rotation = Quaternion.Euler(0.0f, playerCam.transform.eulerAngles.y, 0.0f);
         }
         // Rotate the player with the camera
         transform.rotation = Quaternion.Euler(0.0f, playerCam.transform.eulerAngles.y, 0.0f);
@@ -77,7 +88,14 @@ public class PlayerMovement : MonoBehaviour
         }
         if (!canMove)
             return;
-        MovePlayer();
+        if (isOnBoat)
+        {
+            MoveBoat();
+        }
+        else 
+        {
+            MovePlayer();
+        }
     }
 
     private void MyInput()
@@ -91,6 +109,16 @@ public class PlayerMovement : MonoBehaviour
             Jump();
             Invoke(nameof(ResetJump), jumpCooldown);
         }
+
+        if (isNearBoat && Input.GetKeyDown(KeyCode.E))
+        {
+            BoardBoat();
+        }
+    }
+
+    private void BoardBoat()
+    {
+        isOnBoat = true;
     }
 
     private void MovePlayer()
@@ -101,6 +129,12 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
         else if(!grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
+    }
+
+    private void MoveBoat()
+    {
+        moveDirection = playerCam.transform.forward * verticalInput + playerCam.transform.right * horizontalInput;
+        boatObj.transform.position += moveDirection.normalized * moveSpeed * 10f * Time.deltaTime;
     }
 
     private void SpeedControl()
