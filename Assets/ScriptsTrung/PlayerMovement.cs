@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
+using TMPro;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -36,11 +37,13 @@ public class PlayerMovement : MonoBehaviour
     public bool canMove = true;
 
     public bool isNearBoat = false;
+    public bool isNearLand = false;
     public bool isOnBoat = false;
     public Transform boatAnchor;
     public GameObject boatObj;
     public GameControllerTrung gameControllerTrung;
-    public CinemachineFreeLook playerCamFreeLook;
+
+    public TMP_Text prompt;
 
     // Start is called before the first frame update
     void Start()
@@ -113,12 +116,21 @@ public class PlayerMovement : MonoBehaviour
         if (isNearBoat && Input.GetKeyDown(KeyCode.E))
         {
             BoardBoat();
+        } else if (isOnBoat && isNearLand && Input.GetKeyDown(KeyCode.E))
+        {
+            LeaveBoat();
         }
     }
 
     private void BoardBoat()
     {
         isOnBoat = true;
+    }
+
+    private void LeaveBoat()
+    {
+        isOnBoat = false;
+        prompt.gameObject.SetActive(false);
     }
 
     private void MovePlayer()

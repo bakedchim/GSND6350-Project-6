@@ -4786,6 +4786,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameControllerTrung: {fileID: 1003460466498995364}
   boatDurability: 100
+  boatMaxDurability: 100
   boatSpeed: 10
   treasureCapacity: 2
   treasure: 0
@@ -5095,11 +5096,12 @@ MonoBehaviour:
   playerCam: {fileID: 330585545}
   canMove: 1
   isNearBoat: 0
+  isNearLand: 0
   isOnBoat: 0
   boatAnchor: {fileID: 364276445}
   boatObj: {fileID: 6278207022382873474}
   gameControllerTrung: {fileID: 1003460466498995364}
-  playerCamFreeLook: {fileID: 0}
+  prompt: {fileID: 1858353562}
 --- !u!54 &4502413727290180431
 Rigidbody:
   m_ObjectHideFlags: 0
