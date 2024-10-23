@@ -7,6 +7,7 @@ public class PlayerInfo : MonoBehaviour
 {
     public GameControllerTrung gameControllerTrung;
     public int boatDurability = 100;
+    public int boatMaxDurability = 100;
     public int boatSpeed = 10;
     public int treasureCapacity = 2;
     public int treasure = 0;
