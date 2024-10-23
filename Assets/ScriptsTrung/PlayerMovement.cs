@@ -34,7 +34,8 @@ public class PlayerMovement : MonoBehaviour
 
     public bool canMove = true;
 
-
+    public bool isNearBoat = false;
+    
     public GameControllerTrung gameControllerTrung;
     // Start is called before the first frame update
     void Start()
