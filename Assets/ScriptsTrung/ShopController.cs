@@ -23,7 +23,7 @@ public class ShopController : MonoBehaviour
         {
             upgradeCost = 200;
         }
-        repairCost = 5 * (playerInfo.boatMaxDurability - playerInfo.boatDurability);
+        repairCost = 1 * (playerInfo.boatMaxDurability - playerInfo.boatDurability);
         if (playerInfo.boatDurability < playerInfo.boatMaxDurability) {
             repairText = "Press R to repair for " + repairCost + " gold";
         }
