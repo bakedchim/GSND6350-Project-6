@@ -41,6 +41,8 @@ public class PlayerMovement : MonoBehaviour
     public bool isOnBoat = false;
     public Transform boatAnchor;
     public GameObject boatObj;
+    public PlayerInfo playerInfo;
+    float boatY;
     public GameControllerTrung gameControllerTrung;
 
     public TMP_Text prompt;
@@ -50,6 +52,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;    
+        boatY = boatObj.transform.position.y;
     }
 
     // Update is called once per frame
@@ -113,7 +116,7 @@ public class PlayerMovement : MonoBehaviour
             Invoke(nameof(ResetJump), jumpCooldown);
         }
 
-        if (isNearBoat && Input.GetKeyDown(KeyCode.E))
+        if (isNearBoat && !isOnBoat && Input.GetKeyDown(KeyCode.E))
         {
             BoardBoat();
         } else if (isOnBoat && isNearLand && Input.GetKeyDown(KeyCode.E))
@@ -125,6 +128,7 @@ public class PlayerMovement : MonoBehaviour
     private void BoardBoat()
     {
         isOnBoat = true;
+        prompt.gameObject.SetActive(false);
     }
 
     private void LeaveBoat()
@@ -146,7 +150,8 @@ public class PlayerMovement : MonoBehaviour
     private void MoveBoat()
     {
         moveDirection = playerCam.transform.forward * verticalInput + playerCam.transform.right * horizontalInput;
-        boatObj.transform.position += moveDirection.normalized * moveSpeed * 10f * Time.deltaTime;
+        boatObj.transform.position += moveDirection.normalized * playerInfo.boatSpeed * Time.deltaTime;
+        boatObj.transform.position = new Vector3(boatObj.transform.position.x, boatY, boatObj.transform.position.z);
     }
 
     private void SpeedControl()

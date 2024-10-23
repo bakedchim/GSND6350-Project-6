@@ -83,7 +83,7 @@ public class ShopController : MonoBehaviour
         if (playerInfo.gold >= upgradeCost && numberOfTimesUpgraded < 2)
         {
             playerInfo.gold -= upgradeCost;
-            playerInfo.boatSpeed += 2;
+            playerInfo.boatSpeed += 8;
             playerInfo.boatMaxDurability += 50;
             playerInfo.treasureCapacity += 1;
             numberOfTimesUpgraded++;
