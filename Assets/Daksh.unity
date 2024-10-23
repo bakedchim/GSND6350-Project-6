@@ -15520,7 +15520,7 @@ GameObject:
   - component: {fileID: 1911644804}
   - component: {fileID: 1911644803}
   m_Layer: 0
-  m_Name: Tornado_2
+  m_Name: Tornado_2(Bigger)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
