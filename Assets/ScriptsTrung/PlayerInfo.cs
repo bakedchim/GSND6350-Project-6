@@ -8,7 +8,7 @@ public class PlayerInfo : MonoBehaviour
     public GameControllerTrung gameControllerTrung;
     public int boatDurability = 100;
     public int boatMaxDurability = 100;
-    public int boatSpeed = 10;
+    public int boatSpeed = 4;
     public int treasureCapacity = 2;
     public int treasure = 0;
     public int gold = 0;
@@ -27,6 +27,10 @@ public class PlayerInfo : MonoBehaviour
         if (boatDurability <= 0)
         {
             gameControllerTrung.LoseGame();
+        }
+
+        if (gold >= 1000) {
+            gameControllerTrung.WinGame();
         }
     }
 }

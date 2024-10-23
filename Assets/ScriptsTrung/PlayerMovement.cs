@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
+using TMPro;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -36,17 +37,22 @@ public class PlayerMovement : MonoBehaviour
     public bool canMove = true;
 
     public bool isNearBoat = false;
+    public bool isNearLand = false;
     public bool isOnBoat = false;
     public Transform boatAnchor;
     public GameObject boatObj;
+    public PlayerInfo playerInfo;
+    float boatY;
     public GameControllerTrung gameControllerTrung;
-    public CinemachineFreeLook playerCamFreeLook;
+
+    public TMP_Text prompt;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;    
+        boatY = boatObj.transform.position.y;
     }
 
     // Update is called once per frame
@@ -110,15 +116,25 @@ public class PlayerMovement : MonoBehaviour
             Invoke(nameof(ResetJump), jumpCooldown);
         }
 
-        if (isNearBoat && Input.GetKeyDown(KeyCode.E))
+        if (isNearBoat && !isOnBoat && Input.GetKeyDown(KeyCode.E))
         {
             BoardBoat();
+        } else if (isOnBoat && isNearLand && Input.GetKeyDown(KeyCode.E))
+        {
+            LeaveBoat();
         }
     }
 
     private void BoardBoat()
     {
         isOnBoat = true;
+        prompt.gameObject.SetActive(false);
+    }
+
+    private void LeaveBoat()
+    {
+        isOnBoat = false;
+        prompt.gameObject.SetActive(false);
     }
 
     private void MovePlayer()
@@ -134,7 +150,8 @@ public class PlayerMovement : MonoBehaviour
     private void MoveBoat()
     {
         moveDirection = playerCam.transform.forward * verticalInput + playerCam.transform.right * horizontalInput;
-        boatObj.transform.position += moveDirection.normalized * moveSpeed * 10f * Time.deltaTime;
+        boatObj.transform.position += moveDirection.normalized * playerInfo.boatSpeed * Time.deltaTime;
+        boatObj.transform.position = new Vector3(boatObj.transform.position.x, boatY, boatObj.transform.position.z);
     }
 
     private void SpeedControl()
